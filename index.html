@@ -1,0 +1,38 @@
+<html>
+ 
+<body>
+    <center>
+
+  
+		<span>Hash: </span>
+        <span id="hash"></span>
+  
+        <script>
+			
+			async function getHash(str, algo = "SHA-256") {
+			  let strBuf = new TextEncoder().encode(str);
+			  return crypto.subtle.digest(algo, strBuf)
+				.then(hash => {
+				  window.hash = hash;
+				  let result = '';
+				  const view = new DataView(hash);
+				  for (let i = 0; i < hash.byteLength; i += 4) {
+					result += ('00000000' + view.getUint32(i).toString(16)).slice(-8);
+				  }
+				  return result;
+				});
+			}
+
+            var gfg = "Ian de Melo"
+            
+			getHash(gfg)
+				.then(hash => {
+					document.getElementById("hash").innerHTML=  `${gfg} : ${hash}`;
+				})
+		  
+			
+        </script>
+    </center>
+</body>
+  
+</html>
